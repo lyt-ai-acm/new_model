@@ -90,7 +90,7 @@ python scripts/05_run_ablation.py --model_checkpoint checkpoints/best_roberta.pt
 
 1. `Data/sentiment/`
    - 建议补充：`train.csv`（最重要）、`val.csv`、`test.csv`
-   - 格式：`id,text,label`，其中 `label ∈ {pos, neu, neg}`
+   - 格式：`id,text,label`，其中 `label` 可取 `pos`、`neu`、`neg`
 2. `Data/homophones/`
    - 建议补充/扩展：`chinese_homophones_top10.json`
    - 用于提升同音替换纠错候选质量（如“辣鸡”→“垃圾”）
