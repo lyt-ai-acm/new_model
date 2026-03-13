@@ -14,6 +14,7 @@ class KenLMScorer:
     def __init__(self, model_path: Optional[str] = None, word_freq: Optional[Dict[str, float]] = None):
         self.model = None
         self.word_freq = word_freq or {}
+        self._freq_sum = sum(self.word_freq.values())
         self._use_kenlm = False
         
         if model_path and os.path.exists(model_path):
@@ -39,9 +40,10 @@ class KenLMScorer:
     def _unigram_score(self, tokens: List[str]) -> float:
         total = 0.0
         vocab_size = max(len(self.word_freq), 1)
+        denom = self._freq_sum + vocab_size
         for w in tokens:
             freq = self.word_freq.get(w, 0)
-            prob = (freq + 1) / (sum(self.word_freq.values()) + vocab_size)
+            prob = (freq + 1) / denom
             total += math.log(prob)
         return total / len(tokens)
     

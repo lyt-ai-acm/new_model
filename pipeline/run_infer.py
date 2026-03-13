@@ -30,7 +30,8 @@ def load_freq_dict(path: str) -> Dict[str, float]:
             line = line.strip()
             if line:
                 parts = line.split("\t")
-                freq[parts[0]] = float(parts[1]) if len(parts) > 1 else 1.0
+                if parts[0].strip():
+                    freq[parts[0]] = float(parts[1]) if len(parts) > 1 else 1.0
     return freq
 
 

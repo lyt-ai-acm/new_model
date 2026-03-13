@@ -94,4 +94,6 @@ class HomophoneNormalizer:
         max_s = max(scaled)
         exps = [math.exp(s - max_s) for s in scaled]
         total = sum(exps)
+        if total == 0 or total != total:  # guard against zero or NaN
+            return [1.0 / len(scores)] * len(scores)
         return [e / total for e in exps]

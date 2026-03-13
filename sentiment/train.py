@@ -40,7 +40,7 @@ class SentimentDataset(Dataset):
         return {
             "input_ids": enc["input_ids"].squeeze(0),
             "attention_mask": enc["attention_mask"].squeeze(0),
-            "token_type_ids": enc.get("token_type_ids", torch.zeros((1, self.max_length), dtype=torch.long)).squeeze(0),
+            "token_type_ids": enc.get("token_type_ids", torch.zeros(enc["input_ids"].shape[1], dtype=torch.long).unsqueeze(0)).squeeze(0),
             "labels": torch.tensor(self.labels[idx], dtype=torch.long),
         }
 
