@@ -13,7 +13,7 @@ A complete NLP pipeline for robust Chinese sentiment analysis that handles homop
 
 ```
 .
-├── data/
+├── Data/
 │   ├── sentiment/          # train/val/test CSV files
 │   ├── lexicon/            # high-freq words, sentiment lexicons, negation/degree words
 │   └── homophones/         # chinese_homophones_top10.json
@@ -53,7 +53,7 @@ python scripts/01_prepare_corpus.py
 
 ### 2. Build Vocabulary Frequency
 ```bash
-python scripts/03_build_vocab_freq.py --input data/sentiment/train.csv --output data/lexicon/vocab_freq.txt
+python scripts/03_build_vocab_freq.py --input Data/sentiment/train.csv --output Data/lexicon/vocab_freq.txt
 ```
 
 ### 3. Generate Noisy Training Data
@@ -76,13 +76,30 @@ python -m sentiment.train --model_type rbma --epochs 5 --output_dir checkpoints/
 python -m pipeline.run_infer --text "辣鸡产品根本不能用" --model_checkpoint checkpoints/best_roberta.pt
 
 # Batch inference
-python -m pipeline.run_infer --input_file data/sentiment/test.csv --model_checkpoint checkpoints/best_roberta.pt --output_json results/predictions.json
+python -m pipeline.run_infer --input_file Data/sentiment/test.csv --model_checkpoint checkpoints/best_roberta.pt --output_json results/predictions.json
 ```
 
 ### 6. Run Ablation Study
 ```bash
 python scripts/05_run_ablation.py --model_checkpoint checkpoints/best_roberta.pt
 ```
+
+## 我可以补充哪些数据文件来提升模型？
+
+优先补充以下 3 个文件夹（都在 `Data/` 下）：
+
+1. `Data/sentiment/`
+   - 建议补充：`train.csv`（最重要）、`val.csv`、`test.csv`
+   - 格式：`id,text,label`，其中 `label ∈ {pos, neu, neg}`
+2. `Data/homophones/`
+   - 建议补充/扩展：`chinese_homophones_top10.json`
+   - 用于提升同音替换纠错候选质量（如“辣鸡”→“垃圾”）
+3. `Data/lexicon/`
+   - 可补充：`high_freq_words.txt`、`negation_words.txt`、`degree_words.txt`、`sentiment_lexicon_pos.txt`、`sentiment_lexicon_neg.txt`
+   - 用于改进可疑词检测和排序先验
+
+可选增强：
+- `Data/lm_corpus.txt`：一行一条分词文本，用于训练/更新 KenLM 语言模型（见 `scripts/02_train_kenlm.sh`）。
 
 ## Pipeline Overview
 
