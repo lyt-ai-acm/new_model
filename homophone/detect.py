@@ -43,6 +43,7 @@ class SuspiciousWordDetector:
         # Shape: contains digits, repeated chars, or unusual symbols
         shape = self._shape_score(token)
         
+        # Weights reflect relative importance: homophone match > freq > context > shape
         return 2.0 * has_candidate + 1.5 * low_freq + 1.0 * context + 0.5 * shape
     
     def _shape_score(self, token: str) -> float:

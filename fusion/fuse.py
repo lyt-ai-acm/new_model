@@ -4,6 +4,8 @@ Fusion strategies for combining Top-10 normalized candidate predictions.
 import math
 from typing import List, Dict, Tuple
 
+_UNIFORM_PROB = 1.0 / 3
+
 
 class SentimentFuser:
     """
@@ -35,7 +37,7 @@ class SentimentFuser:
             {label, prob, all_probs}
         """
         if not candidate_probs:
-            return {"label": "neu", "prob": 1.0/3, "all_probs": {"neg": 1.0/3, "neu": 1.0/3, "pos": 1.0/3}}
+            return {"label": "neu", "prob": _UNIFORM_PROB, "all_probs": {"neg": _UNIFORM_PROB, "neu": _UNIFORM_PROB, "pos": _UNIFORM_PROB}}
         
         n = len(candidate_probs)
         

@@ -51,7 +51,7 @@ class SentimentPredictor:
         all_probs = self.predict_proba(texts)
         results = []
         for probs in all_probs:
-            label_id = int(torch.tensor(probs).argmax().item())
+            label_id = max(range(len(probs)), key=lambda i: probs[i])
             results.append({
                 "label": ID2LABEL[label_id],
                 "prob": probs[label_id],

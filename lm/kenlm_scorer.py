@@ -43,6 +43,7 @@ class KenLMScorer:
         denom = self._freq_sum + vocab_size
         for w in tokens:
             freq = self.word_freq.get(w, 0)
+            # Laplace (add-one) smoothing: adds 1 to numerator and vocab_size to denominator
             prob = (freq + 1) / denom
             total += math.log(prob)
         return total / len(tokens)
